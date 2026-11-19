@@ -132,6 +132,8 @@
           </div>
           <aside class="region-list" aria-live="polite">
             <h3 id="region-title">All spots</h3>
+            <label class="ethics-filter"><input type="checkbox" id="ethics-only"> Only spots with good whale watching rules</label>
+            <p class="ethics-key"><span class="ethics-badge" data-ethics="good"><i aria-hidden="true"></i>Good rules</span><span class="ethics-badge" data-ethics="caution"><i aria-hidden="true"></i>Choose carefully</span><span class="ethics-badge" data-ethics="concern"><i aria-hidden="true"></i>Harassment reported</span></p>
             <ul id="region-ul"></ul>
           </aside>
         </div>
@@ -198,6 +200,7 @@
       <button type="button" data-ask="Show me the blue whale">Show me the blue whale</button>
       <button type="button" data-ask="I want to see a humpback whale. When should I go?">When to see humpbacks?</button>
       <button type="button" data-ask="Which species are most threatened?">Most threatened species</button>
+      <button type="button" data-ask="Which whale watching spots are ethical?">Ethical watching spots</button>
     </div>
 
     <form class="composer" id="composer">

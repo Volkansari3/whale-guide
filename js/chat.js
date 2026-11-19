@@ -101,6 +101,7 @@
     dominican: 'water around 26–27 °C, waves 1–2 m, 11 hours of daylight. Trade winds make the sea a bit choppier in the afternoon.',
     baja: 'water around 18–21 °C, waves under 0.5 m inside the lagoon, 11 hours of daylight.',
   };
+  const ETHICS_NOTE = { caution: ' <em>(choose your operator carefully)</em>', concern: ' <em>(harassment reported)</em>' };
   const monthList = (ms) => (ms.length === 12 ? 'all year' : ms.map(month).join(', '));
 
   async function describeSpecies(id) {
@@ -117,8 +118,13 @@
     await handOff('guide', 'trip-planner');
     await action('showOnMap', { speciesId: id });
     await typing(1100);
-    const rows = s.sightings.map((g) => `<p><strong>${P.regionById[g.region].name}</strong>, ${P.regionById[g.region].country}: ${monthList(g.months)}</p>`).join('');
+    const rows = s.sightings.map((g) => `<p><strong>${P.regionById[g.region].name}</strong>, ${P.regionById[g.region].country}: ${monthList(g.months)}${ETHICS_NOTE[P.regionById[g.region].ethics?.rating] || ''}</p>`).join('');
     addMessage('trip-planner', `<p>I marked the ${s.sightings.length} best places for the ${s.name.toLowerCase()} on the map:</p>${rows}`);
+    const risky = s.sightings.map((g) => P.regionById[g.region]).filter((r) => r.ethics?.rating === 'concern');
+    if (risky.length) {
+      await typing(600);
+      addMessage('trip-planner', `<p>A word of warning: ${risky.map((r) => `in ${r.name}, ${r.ethics.reason.charAt(0).toLowerCase() + r.ethics.reason.slice(1)} ${r.ethics.tip}`).join(' ')}</p>`);
+    }
 
     // If a spot is covered by Ocean Conditions, ask that site about the sea
     const target = s.sightings.find((g) => P.regionById[g.region].oceanConditionsRegion);
@@ -166,6 +172,18 @@
     setAgent('guide');
   }
 
+  async function explainEthics() {
+    await handOff('guide', 'conservation-expert');
+    const all = await action('getSpotEthics', {});
+    await action('showOnMap', { ethicsOnly: true });
+    await typing();
+    const by = (rating) => all.spots.filter((x) => x.rating === rating).map((x) => x.name);
+    addMessage('conservation-expert', `<p>Not every whale watching spot treats whales well. ${by('good').length} of the ${all.spots.length} spots in this guide have binding rules that are enforced; I left only those on the map.</p>` +
+      `<p>Recent reports of chasing, crowding or harm come from <strong>${by('concern').join(', ')}</strong>. At ${by('caution').join(', ')} the rules are voluntary or weak, so the operator you pick matters.</p>` +
+      '<p>Wherever you go: book a licensed tour, stay on the boat, and leave if the skipper chases the whales or crowds them with other boats. Open a spot on the map to see why it got its rating.</p>');
+    setAgent('guide');
+  }
+
   async function byMonth(m) {
     await handOff('guide', 'trip-planner');
     const r = await action('filterSpecies', { month: m });
@@ -188,6 +206,7 @@
     const m = P.MONTHS.findIndex((x) => text.includes(x.toLowerCase())) + 1;
     if (id && /when|where|go|see|trip|plan/.test(text) && !/show me/.test(text)) return () => planTrip(id);
     if (id) return () => describeSpecies(id);
+    if (/ethic|responsib|harass|sustainab/.test(text)) return explainEthics;
     if (/threat|endanger|danger|conservation|extinct/.test(text)) return explainThreats;
     if (m) return () => byMonth(m);
     return async () => {

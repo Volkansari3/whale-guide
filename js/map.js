@@ -12,7 +12,7 @@
 
   const monthRange = (months) => (months.length === 12 ? 'all year' : months.map((m) => MONTHS[m - 1].slice(0, 3)).join(', '));
 
-  const state = { speciesId: null, regionId: null, month: null };
+  const state = { speciesId: null, regionId: null, month: null, ethicsOnly: false };
   const markers = {};
   const RANGES = (window.WHALE_RANGES || {}).ranges || {};
   let map = null;
@@ -20,9 +20,27 @@
   let sightingsLayer = null;
   let sightingsInfo = null; // { speciesId, shown, total } after a GBIF load
 
+  /* Ethics badge: how well whale watching is regulated at a spot (researched 2026-11, see data/whales.json).
+     Colours come from --ethics-* in css, so they follow the site palette. */
+  const ETHICS_LABEL = { good: 'Good rules', caution: 'Choose carefully', concern: 'Harassment reported' };
+  function ethicsBadge(r) {
+    const e = r.ethics;
+    if (!e) return '';
+    return `<span class="ethics-badge" data-ethics="${e.rating}" title="${(D.ethicsRatings || {})[e.rating] || ''}"><i aria-hidden="true"></i>${ETHICS_LABEL[e.rating]}</span>`;
+  }
+  function ethicsDetails(r) {
+    const e = r.ethics;
+    if (!e) return '';
+    const src = e.sources.length
+      ? `<ul class="ethics-src">${e.sources.map((x) => `<li><a href="${x.url}" target="_blank" rel="noopener">${x.label}</a></li>`).join('')}</ul>`
+      : '<p class="ethics-note">Based on the rules in force there; no independent check found.</p>';
+    return `<details class="ethics"><summary>${ethicsBadge(r)}<span class="ethics-why">Why?</span></summary>` +
+      `<p>${e.reason}</p><p><b>Tip:</b> ${e.tip}</p>${src}</details>`;
+  }
+
   function popupHTML(r) {
     const rows = (speciesAt[r.id] || []).map((x) => `<div>${speciesById[x.species].name} · <span style="opacity:.7">${monthRange(x.months)}</span></div>`).join('');
-    return `<strong>${r.name}</strong><div style="opacity:.7;margin-bottom:6px">${r.country}</div>${rows}`;
+    return `<strong>${r.name}</strong><div style="opacity:.7;margin-bottom:6px">${r.country}</div>${rows}${ethicsDetails(r)}`;
   }
 
   function build() {
@@ -56,7 +74,10 @@
       D.species.map((s) => `<button type="button" class="chip" data-pick="${s.id}" aria-pressed="false">${s.name.split(' (')[0]}</button>`).join('');
     picker.addEventListener('click', (e) => {
       const b = e.target.closest('[data-pick]');
-      if (b) show({ speciesId: b.dataset.pick || null, month: state.month });
+      if (b) show({ speciesId: b.dataset.pick || null, month: state.month, ethicsOnly: state.ethicsOnly });
+    });
+    document.getElementById('ethics-only').addEventListener('change', (e) => {
+      show({ speciesId: state.speciesId, month: state.month, ethicsOnly: e.target.checked });
     });
 
     const count = document.getElementById('spot-count');
@@ -76,7 +97,7 @@
     strip.innerHTML = SHORT.map((m, i) => `<button type="button" data-month="${i}" aria-pressed="${i === 0}">${m}</button>`).join('');
     strip.addEventListener('click', (e) => {
       const b = e.target.closest('button');
-      if (b) show({ speciesId: state.speciesId, month: Number(b.dataset.month) || null });
+      if (b) show({ speciesId: state.speciesId, month: Number(b.dataset.month) || null, ethicsOnly: state.ethicsOnly });
     });
     show({});
   }
@@ -94,17 +115,21 @@
   }
 
   /* Called by the "showOnMap" site action.
-     speciesId, regionId and month are all optional; spots that do not match fade out. Returns the matching spots. */
-  function show({ speciesId = null, regionId = null, month = null } = {}) {
-    Object.assign(state, { speciesId, regionId, month });
+     speciesId, regionId and month are all optional; spots that do not match fade out.
+     ethicsOnly keeps only the spots rated "good" for ethical whale watching. Returns the matching spots. */
+  function show({ speciesId = null, regionId = null, month = null, ethicsOnly = false } = {}) {
+    Object.assign(state, { speciesId, regionId, month, ethicsOnly });
+    const box = document.getElementById('ethics-only');
+    if (box) box.checked = ethicsOnly;
     const matches = D.regions.filter((r) => {
       const list = speciesAt[r.id];
       if (!list) return false;
       if (regionId) return r.id === regionId;
+      if (ethicsOnly && r.ethics?.rating !== 'good') return false;
       return list.some((x) => (!speciesId || x.species === speciesId) && (!month || x.months.includes(month)));
     });
     const ids = new Set(matches.map((r) => r.id));
-    const filtered = speciesId || regionId || month;
+    const filtered = speciesId || regionId || month || ethicsOnly;
 
     document.querySelectorAll('.marker-dot').forEach((el) => {
       // with one whale picked, every dot takes that whale's zone colour; otherwise the deepest whale seen there
@@ -117,12 +142,12 @@
     document.querySelectorAll('#map-species [data-pick]').forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.pick || null) === speciesId)));
     document.querySelectorAll('#month-strip button').forEach((b) => b.setAttribute('aria-pressed', String((Number(b.dataset.month) || null) === month)));
 
-    const title = [speciesId && speciesById[speciesId].name, month && MONTHS[month - 1]].filter(Boolean).join(' · ');
+    const title = [speciesId && speciesById[speciesId].name, month && MONTHS[month - 1], ethicsOnly && 'Good rules'].filter(Boolean).join(' · ');
     document.getElementById('region-title').textContent = title || 'All spots';
     document.getElementById('region-ul').innerHTML = matches.map((r) => {
       const here = speciesAt[r.id].filter((x) => (!speciesId || x.species === speciesId) && (!month || x.months.includes(month)));
       const names = (here.length ? here : speciesAt[r.id]).map((x) => speciesById[x.species].name.split(' (')[0]).join(', ');
-      return `<li><button type="button" data-region="${r.id}"><strong>${r.name}</strong><span>${r.country} · ${names}</span></button></li>`;
+      return `<li><button type="button" data-region="${r.id}"><strong>${r.name}</strong><span>${r.country} · ${names}</span>${ethicsBadge(r)}</button></li>`;
     }).join('') || '<li style="color:var(--foam-dim);font-size:14px">No spots match this choice.</li>';
 
     if (map && matches.length) {
@@ -136,7 +161,7 @@
         map.flyToBounds(L.latLngBounds(matches.map((r) => [r.location.lat, r.location.lng])).pad(0.4), { duration: 1.2, maxZoom: 4 });
       }
     }
-    return matches.map((r) => ({ id: r.id, name: r.name, country: r.country, species: speciesAt[r.id] }));
+    return matches.map((r) => ({ id: r.id, name: r.name, country: r.country, species: speciesAt[r.id], ethics: r.ethics?.rating || null }));
   }
 
   /* The legend for the picked whale (its range is described in words) */
@@ -172,7 +197,7 @@
 
   async function showSightings({ speciesId, limit = 300 }) {
     const s = speciesById[speciesId];
-    if (state.speciesId !== speciesId) show({ speciesId, month: state.month });
+    if (state.speciesId !== speciesId) show({ speciesId, month: state.month, ethicsOnly: state.ethicsOnly });
     if (!taxonKeys[speciesId]) {
       const m = await gbifJSON(`${GBIF}/species/match?name=${encodeURIComponent(s.scientificName)}&rank=SPECIES&strict=true`);
       if (!m.usageKey) throw new Error(`GBIF does not know ${s.scientificName}`);

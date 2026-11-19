@@ -67,7 +67,7 @@
     },
     {
       name: 'showOnMap',
-      purpose: 'Shows on the map where a species can be seen, a single spot, or the spots that are active in a month. Returns the matching spots.',
+      purpose: 'Shows on the map where a species can be seen, a single spot, or the spots that are active in a month. With ethicsOnly, keeps only spots rated "good" for ethical whale watching. Returns the matching spots with their ethics rating.',
       effect: 'ui',
       inputSchema: {
         type: 'object', additionalProperties: false,
@@ -75,12 +75,13 @@
           speciesId: { type: 'string', enum: speciesIds },
           regionId: { type: 'string', enum: regionIds },
           month: { type: ['integer', 'null'], minimum: 1, maximum: 12 },
+          ethicsOnly: { type: 'boolean', description: 'true keeps only spots with good whale watching rules' },
         },
       },
       handler(input) {
         scrollTo(document.getElementById('world'));
         const spots = window.WorldMap.show(input);
-        return { spots: spots.map((r) => ({ id: r.id, name: r.name, country: r.country })) };
+        return { spots: spots.map((r) => ({ id: r.id, name: r.name, country: r.country, ethics: r.ethics })) };
       },
     },
     {
@@ -112,6 +113,22 @@
         return { ...s, sightings: s.sightings.map((g) => ({ ...g, region: window.Page.regionById[g.region] })) };
       },
     },
+    {
+      name: 'getSpotEthics',
+      purpose: 'Returns how ethical whale watching is at a spot: a rating (good, caution or concern), the reason, a tip for choosing a tour and the sources. Without regionId, returns the rating of every spot. Does not change the page.',
+      effect: 'read',
+      inputSchema: {
+        type: 'object', additionalProperties: false,
+        properties: { regionId: { type: 'string', enum: regionIds } },
+      },
+      handler({ regionId } = {}) {
+        if (regionId) {
+          const r = window.Page.regionById[regionId];
+          return { id: r.id, name: r.name, country: r.country, ...r.ethics, meaning: D.ethicsRatings[r.ethics.rating] };
+        }
+        return { ratings: D.ethicsRatings, spots: D.regions.map((r) => ({ id: r.id, name: r.name, rating: r.ethics.rating })) };
+      },
+    },
   ];
 
   /* Minimal schema check until the runtime is in place. Rejects bad input before running anything. */
@@ -124,6 +141,7 @@
       if (!p) { errors.push(`"${k}" is not a known field`); return; }
       if (p.enum && !p.enum.includes(v)) errors.push(`"${v}" is not a valid ${k}`);
       if (p.type === 'array' && p.items?.enum && (!Array.isArray(v) || v.some((x) => !p.items.enum.includes(x)))) errors.push(`"${k}" is invalid`);
+      if (p.type === 'boolean' && typeof v !== 'boolean') errors.push(`"${k}" must be true or false`);
       if (p.type === 'integer' && v != null && !Number.isInteger(v)) errors.push(`"${k}" must be a whole number`);
       if (p.minimum != null && v != null && (v < p.minimum || v > p.maximum)) errors.push(`"${k}" must be between ${p.minimum} and ${p.maximum}`);
     });

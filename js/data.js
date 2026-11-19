@@ -44,7 +44,23 @@ window.WHALES = {
         "lat": 66.05,
         "lng": -17.34
       },
-      "oceanConditionsRegion": "iceland"
+      "oceanConditionsRegion": "iceland",
+      "ethics": {
+        "rating": "caution",
+        "reason": "Whale watching rules in Iceland are a voluntary code, not law, and a study in Skjálfandi Bay found boats did not always follow it.",
+        "tip": "Pick an operator that has signed the IceWhale code of conduct.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "Icelandic Tourist Board: whale watching code of conduct",
+            "url": "https://www.ferdamalastofa.is/en/news/signing-of-code-of-conduct-for-responsible-whale-watching"
+          },
+          {
+            "label": "Journal of Cetacean Research and Management: compliance in Skjálfandi Bay",
+            "url": "https://journal.iwc.int/index.php/jcrm/article/view/1059"
+          }
+        ]
+      }
     },
     {
       "id": "faxafloi",
@@ -54,7 +70,23 @@ window.WHALES = {
         "lat": 64.15,
         "lng": -22.1
       },
-      "oceanConditionsRegion": "iceland"
+      "oceanConditionsRegion": "iceland",
+      "ethics": {
+        "rating": "caution",
+        "reason": "Rules are a voluntary code, and Iceland planned to resume commercial fin whaling in summer 2026.",
+        "tip": "Pick an IceWhale operator and do not order whale meat in restaurants.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "Icelandic Tourist Board: whale watching code of conduct",
+            "url": "https://www.ferdamalastofa.is/en/news/signing-of-code-of-conduct-for-responsible-whale-watching"
+          },
+          {
+            "label": "Mongabay (May 2026): Iceland plans to resume whale hunting",
+            "url": "https://news.mongabay.com/short-article/2026/05/iceland-plans-to-resume-whale-hunting-this-summer/"
+          }
+        ]
+      }
     },
     {
       "id": "tromso",
@@ -64,7 +96,27 @@ window.WHALES = {
         "lat": 69.65,
         "lng": 18.96
       },
-      "oceanConditionsRegion": "norway"
+      "oceanConditionsRegion": "norway",
+      "ethics": {
+        "rating": "concern",
+        "reason": "Up to 23 boats have been counted around one group of whales, and snorkelers are dropped a few metres from orcas. In April 2026 Norway still had no rules on speed, distance or snorkeling.",
+        "tip": "Choose a large, slow, quiet boat and skip tours that put you in the water.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "Moja Norwegia (April 2026): Norway wants to curb unregulated whale tourism",
+            "url": "https://www.mojanorwegia.pl/en/whales-under-increasing-pressure-norway-wants-to-curb-unregulated-tourism-28016.html"
+          },
+          {
+            "label": "WDC: concerns over Norway's snorkel-with-orcas tours",
+            "url": "https://uk.whales.org/2019/12/12/frozen-waste-missed-opportunity-to-address-deep-concerns-over-norways-snorkel-with-orcas-tours/"
+          },
+          {
+            "label": "The Tyee: Norway whale watchers' chaos",
+            "url": "https://thetyee.ca/News/2023/02/23/Norway-Whale-Watchers-Soup-Chaos/"
+          }
+        ]
+      }
     },
     {
       "id": "andenes",
@@ -74,7 +126,19 @@ window.WHALES = {
         "lat": 69.32,
         "lng": 16.12
       },
-      "oceanConditionsRegion": "norway"
+      "oceanConditionsRegion": "norway",
+      "ethics": {
+        "rating": "caution",
+        "reason": "Long-running tours with guides who know the whales, but Norway has no binding approach-distance rules.",
+        "tip": "Choose a tour with a biologist on board.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "Moja Norwegia (April 2026): Norway wants to curb unregulated whale tourism",
+            "url": "https://www.mojanorwegia.pl/en/whales-under-increasing-pressure-norway-wants-to-curb-unregulated-tourism-28016.html"
+          }
+        ]
+      }
     },
     {
       "id": "azores",
@@ -84,7 +148,19 @@ window.WHALES = {
         "lat": 38.46,
         "lng": -28.33
       },
-      "oceanConditionsRegion": "azores"
+      "oceanConditionsRegion": "azores",
+      "ethics": {
+        "rating": "good",
+        "reason": "Certified Whale Heritage Site, with licensed operators and lookouts on shore that guide the boats.",
+        "tip": "Any licensed operator is a good choice.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "World Animal Protection: Whale Heritage Sites",
+            "url": "https://worldanimalprotection.org/innovative-solutions/whale-heritage-sites"
+          }
+        ]
+      }
     },
     {
       "id": "canaries",
@@ -94,7 +170,23 @@ window.WHALES = {
         "lat": 27.95,
         "lng": -17.6
       },
-      "oceanConditionsRegion": "canaries"
+      "oceanConditionsRegion": "canaries",
+      "ethics": {
+        "rating": "good",
+        "reason": "La Gomera is part of a certified Whale Heritage Site. Nearby Tenerife has the most reports of illegal trips in the islands.",
+        "tip": "Book a boat flying the yellow flag the Canary Islands government gives to authorised operators.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "World Animal Protection: Whale Heritage Sites",
+            "url": "https://worldanimalprotection.org/innovative-solutions/whale-heritage-sites"
+          },
+          {
+            "label": "Canarian Weekly (October 2025): illegal whale watching reports",
+            "url": "https://canarianweekly.com/posts/Tenerife-tops-illegal-whale-watching-reports-in-the-Canary-Islands"
+          }
+        ]
+      }
     },
     {
       "id": "samana",
@@ -104,7 +196,23 @@ window.WHALES = {
         "lat": 19.2,
         "lng": -69.3
       },
-      "oceanConditionsRegion": "dominican"
+      "oceanConditionsRegion": "dominican",
+      "ethics": {
+        "rating": "concern",
+        "reason": "In March 2026 calves were seen with propeller cuts, and a tour boat that came too close struck a calf. Illegal swim-with-whales tours and drones are reported.",
+        "tip": "Book a boat with a permit from the Ministry of Environment. Swimming with whales is not allowed in Samaná Bay.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "Diario Libre (March 2026): injured whales and illegal nets in Samaná",
+            "url": "https://diariolibre.com/planeta/medioambiente/2026/03/30/ballenas-heridas-y-redes-ilegales-en-samana-evidencian-retos/3484352"
+          },
+          {
+            "label": "Acento: 46 whale watching permits for 2026",
+            "url": "https://acento.com.do/ecologia/medio-ambiente-autoriza-46-permisos-para-avistamiento-de-ballenas-en-la-temporada-2026-9605770.html"
+          }
+        ]
+      }
     },
     {
       "id": "dominica",
@@ -114,7 +222,19 @@ window.WHALES = {
         "lat": 15.4,
         "lng": -61.45
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "caution",
+        "reason": "Dominica created the world's first sperm whale reserve and put swims under permits, but getting in the water with sperm whales is still debated.",
+        "tip": "Use a permitted operator, and watching from the boat is the gentler choice.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "DeeperBlue: freediving with whales is now regulated in Dominica",
+            "url": "https://deeperblue.com/freediving-with-whales-is-now-regulated-in-dominica"
+          }
+        ]
+      }
     },
     {
       "id": "san-ignacio",
@@ -124,7 +244,19 @@ window.WHALES = {
         "lat": 26.8,
         "lng": -113.25
       },
-      "oceanConditionsRegion": "baja"
+      "oceanConditionsRegion": "baja",
+      "ethics": {
+        "rating": "good",
+        "reason": "Biosphere reserve run with the local community, with a limit on boats in the lagoon. Touching is debated, but happens only when a whale comes to the boat itself.",
+        "tip": "Never stay on a boat that chases a whale.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "Oceanic Society: is it ethical to touch gray whales?",
+            "url": "https://www.oceanicsociety.org/field-notes/is-it-ethical-to-touch-gray-whales-in-baja-california-sur/"
+          }
+        ]
+      }
     },
     {
       "id": "loreto",
@@ -134,7 +266,14 @@ window.WHALES = {
         "lat": 26.0,
         "lng": -111.3
       },
-      "oceanConditionsRegion": "baja"
+      "oceanConditionsRegion": "baja",
+      "ethics": {
+        "rating": "caution",
+        "reason": "National park with Mexico's federal whale watching rules, but we found no independent check of how well they are followed.",
+        "tip": "Book an operator with a park permit.",
+        "checked": "2026-11",
+        "sources": []
+      }
     },
     {
       "id": "monterey",
@@ -144,7 +283,14 @@ window.WHALES = {
         "lat": 36.8,
         "lng": -122.0
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "good",
+        "reason": "National Marine Sanctuary with NOAA approach guidelines.",
+        "tip": "Any established operator is a good choice.",
+        "checked": "2026-11",
+        "sources": []
+      }
     },
     {
       "id": "maui",
@@ -154,7 +300,19 @@ window.WHALES = {
         "lat": 20.8,
         "lng": -156.6
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "good",
+        "reason": "US law keeps boats 100 yards from humpbacks, and each winter there is a campaign for boats to slow down.",
+        "tip": "Choose a boat that goes slowly.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "NOAA: Hawaiian Islands Humpback Whale sanctuary boating guidelines",
+            "url": "https://hawaiihumpbackwhale.noaa.gov/visit/boating.html"
+          }
+        ]
+      }
     },
     {
       "id": "mirissa",
@@ -164,7 +322,27 @@ window.WHALES = {
         "lat": 5.8,
         "lng": 80.45
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "concern",
+        "reason": "Boats chase blue whales and some let tourists jump in and touch them, which Sri Lankan law forbids. Operators say the authorities have not stopped it.",
+        "tip": "Book a licensed operator that keeps its distance, and avoid any tour that offers swimming.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "The Morning: harassed whales leaving Mirissa seas",
+            "url": "https://www.themorning.lk/harassed-whales-leaving-mirissa-seas"
+          },
+          {
+            "label": "Sunday Times Sri Lanka (May 2024): illegal Mirissa activity deters blue whales",
+            "url": "https://www.sundaytimes.lk/240519/news/wildlife-dept-creaming-off-millions-while-illegal-mirissa-activity-deters-blue-whales-557745.html"
+          },
+          {
+            "label": "Atlas & Boots: why we regret whale watching in Mirissa",
+            "url": "https://www.atlasandboots.com/?p=24037"
+          }
+        ]
+      }
     },
     {
       "id": "san-juan",
@@ -174,7 +352,19 @@ window.WHALES = {
         "lat": 48.53,
         "lng": -123.08
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "good",
+        "reason": "State law keeps boats 1,000 yards from Southern Resident orcas, and commercial tours need a licence.",
+        "tip": "Any licensed operator is a good choice.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "WDFW: 1,000-yard rule for Southern Resident orcas",
+            "url": "https://wdfw.wa.gov/newsroom/news-release/boaters-must-stay-1000-yards-away-southern-resident-killer-whales-under-expanded-rules-washington"
+          }
+        ]
+      }
     },
     {
       "id": "punta-norte",
@@ -184,7 +374,14 @@ window.WHALES = {
         "lat": -42.07,
         "lng": -63.75
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "good",
+        "reason": "The orcas are watched from the shore, and boat tours on the peninsula follow provincial rules.",
+        "tip": "Watch from the shore.",
+        "checked": "2026-11",
+        "sources": []
+      }
     },
     {
       "id": "kaikoura",
@@ -194,7 +391,19 @@ window.WHALES = {
         "lat": -42.4,
         "lng": 173.68
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "good",
+        "reason": "No commercial tour can run without a government permit, and the main operator is Māori-owned.",
+        "tip": "Any permitted operator is a good choice.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "Whale Watch Kaikōura: how we operate",
+            "url": "https://www.whalewatch.co.nz/your-experience/how-we-operate"
+          }
+        ]
+      }
     },
     {
       "id": "oregon",
@@ -204,7 +413,14 @@ window.WHALES = {
         "lat": 44.81,
         "lng": -124.1
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "good",
+        "reason": "US federal rules apply, and there is a strong habit of watching from shore. Little independent data.",
+        "tip": "Try the shore lookouts first.",
+        "checked": "2026-11",
+        "sources": []
+      }
     },
     {
       "id": "hebrides",
@@ -214,7 +430,14 @@ window.WHALES = {
         "lat": 56.8,
         "lng": -6.6
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "good",
+        "reason": "Scottish Marine Wildlife Watching Code, and many skippers trained in the WiSe scheme.",
+        "tip": "Choose a WiSe-trained operator.",
+        "checked": "2026-11",
+        "sources": []
+      }
     },
     {
       "id": "ligurian",
@@ -224,7 +447,23 @@ window.WHALES = {
         "lat": 43.7,
         "lng": 8.6
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "caution",
+        "reason": "Only some operators hold the High Quality Whale Watching certificate, and private boat traffic and ship strikes are a big risk.",
+        "tip": "Choose an operator with the High Quality Whale Watching certificate.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "Pelagos Sanctuary: High Quality Whale Watching",
+            "url": "https://pelagos-sanctuary.org/hqww/"
+          },
+          {
+            "label": "Frontiers in Marine Science (2020): whale watching quality in Pelagos",
+            "url": "https://doi.org/10.3389/fmars.2020.596848"
+          }
+        ]
+      }
     },
     {
       "id": "biscay",
@@ -234,7 +473,14 @@ window.WHALES = {
         "lat": 44.5,
         "lng": -4.5
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "good",
+        "reason": "Mostly watched from large ferries that do not approach the whales.",
+        "tip": "Watch from a ferry.",
+        "checked": "2026-11",
+        "sources": []
+      }
     },
     {
       "id": "disko",
@@ -244,7 +490,19 @@ window.WHALES = {
         "lat": 69.2,
         "lng": -53.5
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "caution",
+        "reason": "Guidelines are voluntary, and Inuit whaling continues in Greenland.",
+        "tip": "Choose a local operator that follows Visit Greenland's guidelines.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "Hakai Magazine: Greenland votes to move whaling away from tourists' eyes",
+            "url": "https://hakaimagazine.com/?p=35194"
+          }
+        ]
+      }
     },
     {
       "id": "isabella",
@@ -254,7 +512,14 @@ window.WHALES = {
         "lat": 69.6,
         "lng": -67.5
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "good",
+        "reason": "Protected area (Niginganiq) with very little tourism, managed together with Inuit.",
+        "tip": "Only go with a permitted trip.",
+        "checked": "2026-11",
+        "sources": []
+      }
     },
     {
       "id": "churchill",
@@ -264,7 +529,19 @@ window.WHALES = {
         "lat": 58.77,
         "lng": -94.17
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "caution",
+        "reason": "Canada's rules ask for 50 to 100 metres, but kayak and snorkel tours bring people very close to belugas, and operators have said they are technically in breach.",
+        "tip": "Avoid tours that chase belugas or put you in the water with them.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "National Geographic: Canada's whale approach distances",
+            "url": "https://www.nationalgeographic.com/travel/article/why-canada-is-making-it-harder-to-go-whale-watching"
+          }
+        ]
+      }
     },
     {
       "id": "tadoussac",
@@ -274,7 +551,19 @@ window.WHALES = {
         "lat": 48.14,
         "lng": -69.72
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "good",
+        "reason": "Marine park regulations keep boats 400 metres from the endangered belugas.",
+        "tip": "Any licensed operator is a good choice.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "Saguenay–St. Lawrence Marine Park regulations",
+            "url": "https://laws.justice.gc.ca/eng/regulations/SOR-2002-76/page-3.html"
+          }
+        ]
+      }
     },
     {
       "id": "svalbard",
@@ -284,7 +573,19 @@ window.WHALES = {
         "lat": 78.2,
         "lng": 15.6
       },
-      "oceanConditionsRegion": null
+      "oceanConditionsRegion": null,
+      "ethics": {
+        "rating": "good",
+        "reason": "Stricter environmental rules took effect on 1 January 2025, and expedition operators follow AECO guidelines.",
+        "tip": "Choose an AECO member.",
+        "checked": "2026-11",
+        "sources": [
+          {
+            "label": "Governor of Svalbard: new environmental regulations",
+            "url": "https://sysselmesteren.no/en/news/2024/12/new-environmental-regulations-enters-into-force-on-1-january"
+          }
+        ]
+      }
     }
   ],
   "species": [
@@ -1214,5 +1515,10 @@ window.WHALES = {
         "source": "https://www.fisheries.noaa.gov/national/science-data/sounds-ocean-mammals"
       }
     }
-  ]
+  ],
+  "ethicsRatings": {
+    "good": "Good rules: binding rules or a certificate, and they are enforced.",
+    "caution": "Choose carefully: rules are voluntary or weak, so the operator you pick matters.",
+    "concern": "Harassment reported: recent reports of chasing, crowding or harm to whales."
+  }
 };
