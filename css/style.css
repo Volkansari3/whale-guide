@@ -619,15 +619,7 @@ body.chat-open .hero-whale { width: clamp(280px, 42vw, 680px); }
 .card-image img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 18px rgba(0, 8, 20, .45)); transition: transform .5s var(--ease-slow); }
 .card:hover .card-image img { transform: translateX(-6px) scale(1.03); }
 .card-image img.img-missing { visibility: hidden; }
-.size-bar { display: grid; gap: 6px; }
 .sb-track { position: relative; height: 6px; border-radius: 99px; background: rgba(169, 198, 207, .14); overflow: hidden; }
-.sb-whale { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 99px; background: color-mix(in srgb, var(--zone-accent, #7ae6d4) 75%, transparent); }
-.sb-human { position: absolute; left: 0; top: -2px; bottom: -2px; border-radius: 99px; background: var(--foam); box-shadow: 0 0 0 2px rgba(4, 14, 26, .9); }
-.sb-legend { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--foam-dim); font-variant-numeric: tabular-nums; }
-.sb-legend span { display: inline-flex; align-items: center; gap: 6px; }
-.sb-legend i { width: 8px; height: 8px; border-radius: 50%; }
-.sb-dot-human { background: var(--foam); }
-.sb-dot-whale { background: var(--zone-accent, #7ae6d4); }
 .facts dt { white-space: nowrap; }
 
 /* ---------- Breathing room under the sticky filter bar and the header ---------- */
@@ -662,17 +654,6 @@ body.chat-open .hero-whale, body.chat-open canvas.hero-whale { width: min(66vw, 
 .lineup-title { font: 400 clamp(44px, 6vw, 84px)/1 var(--font-serif); margin: 0; }
 .lineup-title em { color: var(--coral, #ff7a59); }
 .lineup-text { max-width: 560px; color: rgba(230, 242, 250, .75); margin: 14px 0 0; }
-.lineup-track {
-  --pxm: 20px;
-  display: flex; align-items: flex-end; gap: 34px;
-  overflow-x: auto; overscroll-behavior-x: contain;
-  padding: 24px max(var(--gutter, 24px), calc((100vw - 1160px) / 2 + var(--gutter, 24px))) 26px;
-  margin-top: 26px;
-  background: linear-gradient(transparent calc(100% - 64px), rgba(255, 255, 255, .06) calc(100% - 64px), rgba(255, 255, 255, .06) calc(100% - 63px), transparent calc(100% - 63px));
-  scrollbar-color: rgba(255, 255, 255, .25) transparent;
-}
-.lineup-track:focus-visible { outline: 2px solid var(--coral, #ff7a59); outline-offset: -2px; }
-.lu-item { flex: none; margin: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .lu-go { all: unset; cursor: pointer; display: block; border-radius: 10px; }
 .lu-go:focus-visible { outline: 2px solid var(--coral, #ff7a59); outline-offset: 4px; }
 .lu-go img { display: block; width: calc(var(--m) * var(--pxm) / 0.92); height: auto; filter: drop-shadow(0 14px 18px rgba(0, 8, 20, .45)); transition: transform .4s var(--ease-slow, ease); }
@@ -683,10 +664,7 @@ body.chat-open .hero-whale, body.chat-open canvas.hero-whale { width: min(66vw, 
 .lu-bus > rect { fill: #ffd27a; }
 .lu-bus .win rect { fill: #0b3150; }
 .lu-bus circle { fill: #0a1d33; stroke: #ffd27a; stroke-width: 2; }
-.lu-item figcaption { font: 400 13px/1.3 var(--font-text); color: rgba(230, 242, 250, .7); white-space: nowrap; }
-.lu-item figcaption b { display: block; font: 600 14px/1.3 var(--font-text); color: #f2f7fa; }
-.lu-ref figcaption b { color: var(--sun, #ffd27a); }
-@media (max-width: 700px) { .lineup-track { --pxm: 14px; gap: 22px; } .lineup { padding-top: 90px; } }
+@media (max-width: 700px) { .lineup { padding-top: 90px; } }
 
 /* ===== Map section restyle (2026-11-18): rising back to the surface, ocean-tinted map, zone colours ===== */
 .map-section { --zone-accent: var(--biolum);
@@ -791,3 +769,47 @@ body.chat-open .hero-whale, body.chat-open canvas.hero-whale { width: min(66vw, 
 .listen[data-state="error"] { border-color: var(--coral); color: var(--coral); }
 @keyframes listen-bar { 0%, 100% { height: 25%; } 50% { height: 100%; } }
 @media (prefers-reduced-motion: reduce) { .listen[data-state="playing"] .listen-icon i { animation: none; } }
+
+/* ===== Side by side, fixed references (Sari, 2026-11-19) =====
+   The person and the bus stay on the ground line; the picked whale swims above them at the same scale.
+   --pxm (pixels per metre) is set by js/page.js from the stage width; --m is the picked whale's length. */
+.lineup { padding-bottom: 60px; }
+.lu-picker { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 28px; padding: 2px; }
+.lu-picker::-webkit-scrollbar { display: none; }
+.lu-pick { flex: none; display: inline-flex; align-items: baseline; gap: 6px; padding: 7px 14px; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .14); background: transparent; color: var(--foam-dim); font-size: 14px; white-space: nowrap;
+  transition: background .2s, color .2s, border-color .2s; }
+.lu-pick small { font-size: 11.5px; opacity: .7; font-variant-numeric: tabular-nums; }
+.lu-pick:hover { border-color: rgba(255, 255, 255, .4); color: var(--foam); }
+.lu-pick[aria-selected="true"] { background: var(--coral, #ff7a59); border-color: var(--coral, #ff7a59); color: #2a0d05; font-weight: 600; }
+.lu-stage { --pxm: 28px; --m: 33; position: relative; margin-top: 30px; }
+.lu-whales { position: relative; min-height: calc(9 * var(--pxm)); display: flex; align-items: flex-end; padding-bottom: calc(.6 * var(--pxm)); }
+.lu-whale { margin: 0; animation: lu-in .5s var(--ease-slow, ease); }
+@keyframes lu-in { from { opacity: 0; transform: translateX(calc(-1 * var(--pxm))); } to { opacity: 1; transform: none; } }
+.lu-whale .lu-go img { width: calc(var(--m) * var(--pxm) / 0.92); }
+.lu-ground { display: flex; align-items: flex-end; gap: calc(.8 * var(--pxm)); }
+.lu-ref { margin: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.lu-ref-bus { order: -1; }
+.lu-ref figcaption { font: 400 12.5px/1.25 var(--font-text); color: rgba(230, 242, 250, .7); white-space: nowrap; }
+.lu-ref figcaption b { display: block; font: 600 13.5px/1.25 var(--font-text); color: var(--sun, #ffd27a); }
+.lu-ruler { position: relative; height: 34px; margin-top: 10px; border-top: 1px solid rgba(255, 255, 255, .22); }
+.lu-ruler::before { /* the picked whale's length, marked on the ruler */
+  content: ""; position: absolute; left: 0; top: -2px; height: 3px; width: calc(var(--m) * var(--pxm));
+  background: var(--coral, #ff7a59); border-radius: 2px; transition: width .5s var(--ease-slow, ease); }
+.lu-ruler span { position: absolute; left: calc(var(--at) * var(--pxm)); top: 6px; transform: translateX(-50%);
+  font-size: 11px; color: rgba(230, 242, 250, .55); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lu-ruler span::before { content: ""; position: absolute; left: 50%; top: -6px; width: 1px; height: 5px; background: rgba(255, 255, 255, .3); }
+.lu-ruler span:first-child { transform: none; }
+.lu-ruler span:first-child::before { left: 0; }
+.lu-readout { margin: 18px 0 0; max-width: 64ch; color: rgba(230, 242, 250, .8); font-size: 16px; }
+.lu-readout strong { color: #f2f7fa; }
+.lu-readout b { color: var(--coral, #ff7a59); }
+.lu-readout .link-btn { margin-left: 6px; font-size: 14px; }
+@media (max-width: 700px) {
+  .lu-picker { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
+  .lu-ruler span:nth-child(even) { display: none; }
+  .lu-ref figcaption { font-size: 11px; }
+  .lu-ref figcaption b { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .lu-whale { animation: none; } .lu-ruler::before { transition: none; } }
+.card-links { display: inline-flex; gap: 16px; }

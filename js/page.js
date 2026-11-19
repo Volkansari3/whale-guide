@@ -3,7 +3,6 @@
 (function () {
   const D = window.WHALES;
   const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  const LARGEST = 33; // scale: blue whale, in metres
   const regionById = Object.fromEntries(D.regions.map((r) => [r.id, r]));
   const speciesById = Object.fromEntries(D.species.map((s) => [s.id, s]));
   const num = (n) => n.toLocaleString('en-US');
@@ -16,7 +15,6 @@
 
   function cardHTML(s) {
     const months = speciesMonths(s);
-    const ratio = (s.length.max / LARGEST) * 100;
     const places = s.sightings.slice(0, 2).map((g) => regionById[g.region].country.split(' (')[0]).join(', ');
     return `
       <article class="card" id="species-${s.id}" data-species="${s.id}" tabindex="-1" aria-labelledby="name-${s.id}">
@@ -33,13 +31,6 @@
             <span class="listen-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="listen-text">Listen: ${s.sound.label.toLowerCase()}</span>
           </button>` : ''}
         </figure>
-        <div class="size-bar" role="img" aria-label="Up to ${num(s.length.max)} metres long, compared with a 1.8 metre person">
-          <div class="sb-track">
-            <span class="sb-whale" style="width:${ratio.toFixed(1)}%"></span>
-            <span class="sb-human" style="width:${Math.max(1.2, (1.8 / LARGEST) * 100).toFixed(1)}%"></span>
-          </div>
-          <div class="sb-legend"><span><i class="sb-dot-human"></i>Person 1.8 m</span><span><i class="sb-dot-whale"></i>Up to ${num(s.length.max)} m</span></div>
-        </div>
         <p class="card-summary">${s.summary}</p>
         <dl class="facts">
           <div><dt>Length</dt><dd>${num(s.length.min)}–${num(s.length.max)} m</dd></div>
@@ -53,7 +44,10 @@
         <p class="card-sources">Sources: ${(s.sources || []).map((x) => `<a href="${x.url}" target="_blank" rel="noopener">${x.name.split(',')[0].replace(' species page', '')}</a>`).join(', ')}${s.sound ? `. Sound: <a href="${s.sound.source}" target="_blank" rel="noopener">${s.sound.credit}</a>` : ''}</p>
         <div class="card-foot">
           <span class="places">${places}${s.sightings.length > 2 ? ` and ${s.sightings.length - 2} more` : ''}</span>
-          <button type="button" class="link-btn" data-map="${s.id}">Show on map</button>
+          <span class="card-links">
+            <button type="button" class="link-btn" data-compare="${s.id}">Compare size</button>
+            <button type="button" class="link-btn" data-map="${s.id}">Show on map</button>
+          </span>
         </div>
       </article>`;
   }
@@ -78,30 +72,81 @@
     }).join('');
   }
 
-  /* ---------- Size line-up: every species, a bus and a person at one scale ---------- */
+  /* ---------- Size line-up: one whale at a time, next to a person and a bus that never move ----------
+     The person and the bus stand on the same ground line, at the same scale, while you switch whales.
+     The scale is set from the stage width so the largest whale always fits. */
   function buildLineup() {
-    const track = document.getElementById('lineup-track');
-    if (!track) return;
+    const stage = document.getElementById('lineup-stage');
+    if (!stage) return;
     const sorted = [...D.species].sort((a, b) => b.length.max - a.length.max);
-    const person = `<figure class="lu-item lu-ref" style="--m:1.8">
-        <svg class="lu-person" viewBox="0 0 10 36" aria-hidden="true"><circle cx="5" cy="3.2" r="3.2"/><path d="M1.6 8h6.8l1.2 12H7.4l-.6 16H3.2l-.6-16H.4z"/></svg>
-        <figcaption><b>You</b>1.8 m</figcaption></figure>`;
-    const bus = `<figure class="lu-item lu-ref" style="--m:12">
-        <svg class="lu-bus" viewBox="0 0 120 32" aria-hidden="true"><rect x="0" y="0" width="120" height="27" rx="4"/><g class="win">${Array.from({ length: 8 }, (_, i) => `<rect x="${8 + i * 13.5}" y="5" width="10" height="9" rx="1.5"/>`).join('')}</g><circle cx="22" cy="27" r="5"/><circle cx="98" cy="27" r="5"/></svg>
-        <figcaption><b>City bus</b>12 m</figcaption></figure>`;
-    track.innerHTML = person + bus + sorted.map((s) => `
-      <figure class="lu-item" style="--m:${s.length.max}">
+    const RULER = 36;                     // metres shown on the ruler; the blue whale (33 m) fits with room for its tail
+    const picker = document.getElementById('lineup-picker');
+    const readout = document.getElementById('lineup-readout');
+    const whales = stage.querySelector('.lu-whales');
+
+    picker.innerHTML = sorted.map((s) => `<button type="button" class="lu-pick" role="tab" id="lu-tab-${s.id}" data-pick="${s.id}" aria-selected="false" aria-controls="lineup-stage" tabindex="-1">${s.name}<small>${num(s.length.max)} m</small></button>`).join('');
+    whales.innerHTML = sorted.map((s) => `
+      <figure class="lu-whale" data-whale="${s.id}" style="--m:${s.length.max}" hidden>
         <button type="button" class="lu-go" data-go="${s.id}" aria-label="${s.name}, up to ${num(s.length.max)} metres. Go to card">
           <img src="${s.image}" alt="" loading="lazy" onerror="this.classList.add('img-missing')">
         </button>
-        <figcaption><b>${s.name}</b>${num(s.length.max)} m</figcaption>
       </figure>`).join('');
-    track.addEventListener('click', (e) => {
+    stage.querySelector('.lu-ruler').innerHTML = Array.from({ length: RULER / 5 + 1 }, (_, i) => `<span style="--at:${i * 5}">${i * 5}${i === RULER / 5 ? ' m' : ''}</span>`).join('');
+
+    // one metre in pixels, from the width of the stage
+    const setScale = () => stage.style.setProperty('--pxm', (stage.clientWidth / RULER).toFixed(2) + 'px');
+    setScale();
+    window.addEventListener('resize', setScale);
+
+    function pick(id, focus) {
+      const s = speciesById[id];
+      if (!s) return;
+      picker.querySelectorAll('.lu-pick').forEach((b) => {
+        const on = b.dataset.pick === id;
+        b.setAttribute('aria-selected', String(on));
+        b.tabIndex = on ? 0 : -1;
+        if (on && focus) { b.focus(); }
+        if (on) b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      });
+      whales.querySelectorAll('.lu-whale').forEach((f) => { f.hidden = f.dataset.whale !== id; });
+      stage.style.setProperty('--m', s.length.max);
+      stage.setAttribute('aria-labelledby', 'lu-tab-' + id);
+      const buses = s.length.max / 12;
+      const people = Math.round(s.length.max / 1.8);
+      const busText = buses >= 0.95 ? `${num(Math.round(buses * 10) / 10)} city buses` : `${Math.round(buses * 100)}% of a city bus`;
+      readout.innerHTML = `<strong>${s.name}</strong> grows up to <b>${num(s.length.max)} m</b>: about ${busText}, or ${people} people lying head to toe.
+        <button type="button" class="link-btn" data-go="${s.id}">Go to its card</button>`;
+    }
+
+    picker.addEventListener('click', (e) => { const b = e.target.closest('[data-pick]'); if (b) pick(b.dataset.pick); });
+    picker.addEventListener('keydown', (e) => {
+      const keys = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+      if (!(e.key in keys) && e.key !== 'Home' && e.key !== 'End') return;
+      e.preventDefault();
+      const ids = sorted.map((s) => s.id);
+      const cur = ids.indexOf(picker.querySelector('[aria-selected="true"]').dataset.pick);
+      const next = e.key === 'Home' ? 0 : e.key === 'End' ? ids.length - 1 : (cur + keys[e.key] + ids.length) % ids.length;
+      pick(ids[next], true);
+    });
+    document.getElementById('lineup').addEventListener('click', (e) => {
       const b = e.target.closest('[data-go]');
       if (!b) return;
       const card = document.getElementById('species-' + b.dataset.go);
       if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.focus({ preventScroll: true }); }
     });
+
+    // "Compare size" on a card: go up to the line-up with that whale picked
+    document.getElementById('zones').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-compare]');
+      if (!b) return;
+      pick(b.dataset.compare);
+      document.getElementById('lineup').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const tab = document.getElementById('lu-tab-' + b.dataset.compare);
+      if (tab) tab.focus({ preventScroll: true });
+    });
+
+    pick(sorted[0].id);
+    window.Lineup = { pick };
   }
 
   /* ---------- Filtering ---------- */

@@ -25,7 +25,7 @@ An internet connection is needed for the map imagery, the fonts, the whale image
 - **Species**: 12 cards in three depth zones (Sunlight 0–200 m, Twilight 200–1,000 m, Midnight below 1,000 m).
   Each card has length, weight, record dive, IUCN status, best months, sources and, for 10 species, a real NOAA recording.
   The filters at the top narrow them down by feeding type, status or month.
-- **Side by side**: all twelve whales to scale next to a city bus and a person.
+- **Side by side**: pick a whale and see it to scale next to a city bus and a person, who stay in place on a metre ruler.
 - **Where and when?**: 25 whale-watching spots on a map. Pick a whale or a month; load real sightings from GBIF.
 - **Ocean giants, still fragile**: how many species are threatened and why.
 - **Ask the Guide**: the chat panel, with a live drawing of the four agents (Guide, Species Expert, Trip Planner,

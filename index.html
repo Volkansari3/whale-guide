@@ -103,9 +103,24 @@
         <div class="inner">
           <p class="lineup-kicker">To scale</p>
           <h2 class="lineup-title" id="lineup-h">Side by <em>side</em></h2>
-          <p class="lineup-text">All twelve whales at their largest, next to a city bus and you. Scroll along the line, or pick one to jump to its card.</p>
+          <p class="lineup-text">The person and the city bus stay where they are. Pick a whale to set it next to them, at the same scale.</p>
+          <div class="lu-picker" id="lineup-picker" role="tablist" aria-label="Pick a whale to compare"></div>
+          <div class="lu-stage" id="lineup-stage" role="tabpanel">
+            <div class="lu-whales"></div>
+            <div class="lu-ground">
+              <figure class="lu-ref lu-ref-person">
+                <svg class="lu-person" viewBox="0 0 10 36" aria-hidden="true"><circle cx="5" cy="3.2" r="3.2"/><path d="M1.6 8h6.8l1.2 12H7.4l-.6 16H3.2l-.6-16H.4z"/></svg>
+                <figcaption><b>You</b>1.8 m</figcaption>
+              </figure>
+              <figure class="lu-ref lu-ref-bus">
+                <svg class="lu-bus" viewBox="0 0 120 32" aria-hidden="true"><rect x="0" y="0" width="120" height="27" rx="4"/><g class="win"><rect x="8" y="5" width="10" height="9" rx="1.5"/><rect x="21.5" y="5" width="10" height="9" rx="1.5"/><rect x="35" y="5" width="10" height="9" rx="1.5"/><rect x="48.5" y="5" width="10" height="9" rx="1.5"/><rect x="62" y="5" width="10" height="9" rx="1.5"/><rect x="75.5" y="5" width="10" height="9" rx="1.5"/><rect x="89" y="5" width="10" height="9" rx="1.5"/><rect x="102.5" y="5" width="10" height="9" rx="1.5"/></g><circle cx="22" cy="27" r="5"/><circle cx="98" cy="27" r="5"/></svg>
+                <figcaption><b>City bus</b>12 m</figcaption>
+              </figure>
+            </div>
+            <div class="lu-ruler" aria-hidden="true"></div>
+          </div>
+          <p class="lu-readout" id="lineup-readout" aria-live="polite"></p>
         </div>
-        <div class="lineup-track" id="lineup-track" tabindex="0" aria-label="Whales compared by length"></div>
       </section>
 
       <!-- Depth zones: filled in by js/page.js -->
